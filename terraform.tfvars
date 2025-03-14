@@ -1,0 +1,5 @@
+ad_host     = "ldaps://ad.company.com"
+ad_username = "admin@company.com"
+ad_password = "super_secure_password"
+hcp_client_id   = "your-client-id"
+hcp_client_secret = "your-client-secret"
