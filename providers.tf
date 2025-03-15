@@ -1,8 +1,8 @@
 terraform {
   required_providers {
-    ldap = {
-      source  = "terraform-providers/ldap"
-      version = "~> 0.2.0"
+    ad = {
+      source  = "hashicorp/ad"
+      version = "~> 0.3.0"
     }
     hcp = {
       source  = "hashicorp/hcp"
@@ -11,11 +11,10 @@ terraform {
   }
 }
 
-provider "ldap" {
-  host     = var.ad_host
-  binddn   = var.ad_username
-  password = var.ad_password
-  insecure = false # Set to true if using plain LDAP instead of LDAPS
+provider "ad" {
+  winrm_hostname = var.ad_host
+  winrm_username = var.ad_username
+  winrm_password = var.ad_password
 }
 
 provider "hcp" {

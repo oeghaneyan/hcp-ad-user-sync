@@ -53,7 +53,6 @@ hcp-user-sync/
 │── providers.tf                 # Providers configuration
 │── variables.tf                 # Variables definition
 │── outputs.tf                    # Outputs definition (if needed)
-│── versions.tf                   # Required Terraform version
 │── locals.tf                     # Local variables (AD groups)
 │── terraform.tfvars              # Sensitive variable values (ignored in Git)
 │── .gitignore                    # Ignore sensitive Terraform files
