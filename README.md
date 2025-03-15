@@ -77,11 +77,15 @@ In your GitHub repository, navigate to **Settings → Secrets and Variables → 
 
 
 ### 3. Modify Terraform Variables
-Edit ```locals.tf``` to update the AD groups being synced:
+Edit ```locals.tf``` to update the AD groups being synced to their corresponding HCP group:
 
 ```
 locals {
-  ad_groups = ["Engineering", "Operations", "Security"]
+  ad_groups = {
+    "CN=Engineering,OU=Groups,DC=company,DC=com" = "engineering-team",
+    "CN=Operations,OU=Groups,DC=company,DC=com"  = "operations-team",
+    "CN=Security,OU=Groups,DC=company,DC=com"    = "security-team"
+  } # Mapping of AD Distinguished Names to HCP groups
 }
 ```
 
