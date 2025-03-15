@@ -1,14 +1,11 @@
 data "ad_group" "selected" {
-  for_each = toset(local.ad_groups)
-  group_id = each.value  # Uses AD Distinguished Name
+  for_each = local.ad_groups
+  group_id = each.key  # Uses AD Distinguished Name
 }
 
-# Query users within the selected AD groups
-resource "hcp_user" "hcp_org_members" {
-  for_each = merge([for group in local.ad_groups : {
-    for user in data.ad_group.selected[group].members : user.sam_account_name => group
-  }]...)
-
-  email = "${each.key}@company.com"  # Adjust email format as needed
-  role  = each.value  # Assumes HCP groups match AD groups
+# Manage HCP group members based on AD group users
+resource "hcp_group_members" "hcp_org_groups" {
+  for_each = local.ad_groups
+  group = each.value  # Maps to the corresponding HCP group
+  members = [for user in data.ad_group.selected[each.key].members : "${user.sam_account_name}@company.com"]
 }
