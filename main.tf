@@ -1,15 +1,14 @@
-# Query users only from specific AD groups
-data "ad_users" "active" {
+data "ad_group" "selected" {
   for_each = toset(local.ad_groups)
-  search {
-    name  = "memberOf"
-    value = "CN=${each.value},OU=Groups,DC=company,DC=com"
-  }
+  group_id = each.value  # Uses AD Distinguished Name
 }
 
-# Provision active users in HCP and assign them to their respective groups
+# Query users within the selected AD groups
 resource "hcp_user" "hcp_org_members" {
-  for_each = merge([for group in local.ad_groups : { for user in data.ad_users.active[group].users : user.mail => group } ]...)
-  email    = each.key
-  role     = each.value  # Assumes HCP groups match AD groups
+  for_each = merge([for group in local.ad_groups : {
+    for user in data.ad_group.selected[group].members : user.sam_account_name => group
+  }]...)
+
+  email = "${each.key}@company.com"  # Adjust email format as needed
+  role  = each.value  # Assumes HCP groups match AD groups
 }

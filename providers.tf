@@ -2,7 +2,7 @@ terraform {
   required_providers {
     ad = {
       source  = "hashicorp/ad"
-      version = "~> 0.3.0"
+      version = "~> 0.5.0"
     }
     hcp = {
       source  = "hashicorp/hcp"
